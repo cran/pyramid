@@ -1,9 +1,12 @@
-pyramid <- function(data, Laxis=NULL, Raxis=NULL, Cgap=0.3, Cstep=1, 
+pyramid <- function(data, Laxis=NULL, Raxis=NULL, 
+ AxisFM="g", AxisBM="", AxisBI=3, Cgap=0.3, Cstep=1, Csize=1, 
  Llab="Males", Rlab="Females", Clab="Ages", GL=TRUE, Cadj=-0.03, 
  Lcol="Cyan", Rcol="Pink", Ldens=-1, Rdens=-1, main="", ...) {
  # A function to draw population pyramid
  # rev 1.0: 5th January 2010
  # rev 1.1: 6th January 2010: Added "Cadj" option with faint modification.
+ # rev 1.2: 11th March 2010: Added "Csize", "AxisFM", "AxisBM", and "AxisBI"
+ #          options, as suggested by Dr. Philippe Guillet.
  # (C) Minato Nakazawa <minato-nakazawa@umin.net>
  Left <- data[,1]
  Right <- data[,2]
@@ -41,9 +44,13 @@ pyramid <- function(data, Laxis=NULL, Raxis=NULL, Cgap=0.3, Cstep=1,
  text(0.5+Cgap/2,1,Rlab,pos=3)
  text(0,1,Clab,pos=3)
  Ci <- length(Center)
- for (i in 0:(Ci-1)) { if ((i%%Cstep)==0) { text(0,i/Ci+Cadj,paste(Center[i+1]),pos=3) } }
- text(-(Laxis-LR)/LS-Cgap/2,rep(0,LI),paste(Laxis),pos=1)
- text((Raxis-RL)/RS+Cgap/2,rep(0,RI),paste(Raxis),pos=1)
+ for (i in 0:(Ci-1)) { 
+  if ((i%%Cstep)==0) { text(0,i/Ci+Cadj,paste(Center[i+1]),pos=3,cex=Csize) }
+ }
+ text(-(Laxis-LR)/LS-Cgap/2,rep(0,LI),
+  paste(formatC(Laxis,format=AxisFM,big.mark=AxisBM,big.interval=AxisBI)),pos=1)
+ text((Raxis-RL)/RS+Cgap/2,rep(0,RI),
+  paste(formatC(Raxis,format=AxisFM,big.mark=AxisBM,big.interval=AxisBI)),pos=1)
  # draw rectangles
  VB <- 0:(Ci-1)/Ci
  VT <- 1:Ci/Ci

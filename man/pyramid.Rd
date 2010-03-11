@@ -6,7 +6,8 @@
   Detailed explanation is given in Japanese
   at http://phi.med.gunma-u.ac.jp/swtips/R.html#PYRAMID.
 }
-\usage{ pyramid(data, Laxis=NULL, Raxis=NULL, Cgap=0.3, Cstep=1, 
+\usage{ pyramid(data, Laxis=NULL, Raxis=NULL, 
+ AxisFM="g", AxisBM="", AxisBI=3, Cgap=0.3, Cstep=1, Csize=1, 
  Llab="Males", Rlab="Females", Clab="Ages", GL=TRUE, Cadj=-0.03, 
  Lcol="Cyan", Rcol="Pink", Ldens=-1, Rdens=-1, main="", ...)
 }
@@ -18,8 +19,12 @@
  labels, otherwise the row.names(data) is used as age-class labels.}
  \item{Laxis}{A vector of axis for left pyramid.  If missing, automatically given.}
  \item{Raxis}{A vector of axis for right pyramid.  If missing, Laxis is used.}
+ \item{AxisFM}{A format code of formatC for plotting axis.  If missing, "g" is used.}
+ \item{AxisBM}{A big.mark of formatC for plotting axis.  If missing, none.}
+ \item{AxisBI}{A big.interval number of formatC for plotting axis.  Default is 3}
  \item{Cgap}{The width of center gap (as ratio to each panel) to draw age-class. Default is 0.3}
  \item{Cstep}{The interval to write the labels of age classes. Default is 1}
+ \item{Csize}{The font size factor to write the labels of age classes. Default is 1}
  \item{Cadj}{The vertical adjustment factor for the labels of age classes. Default is -0.03}
  \item{Llab}{The label of the left pyramid.  Default is "Males".}
  \item{Rlab}{The label of the right pyramid.  Default is "Females".}
@@ -75,6 +80,7 @@ Females=c(8323, 8750, 8964, 9359, 9559, 9605, 9511, 9800, 9790, 9848,
  1209, 878, 739, 536, 333, 193, 134, 86, 56, 28, 13, 8, 5, 3, 1),
 Ages=0:108)
 pyramid(GunmaPop2005,Llab="Males",Rlab="Females",Clab="",Laxis=seq(0,20000,len=5),
- Cstep=10,main="Population pyramid of Gunma Prefecture\n (Data: Census 2005, total by gender)")
+ AxisFM="d", AxisBM=",", Csize=0.8,  Cstep=10, 
+ main="Population pyramid of Gunma Prefecture\n (Data: Census 2005, total by gender)")
 }
 \keyword{hplot}
