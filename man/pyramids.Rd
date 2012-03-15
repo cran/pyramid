@@ -4,7 +4,7 @@
 \description{
   Drawing population pyramid using vectors.
   Detailed explanation is given in Japanese
-  at http://phi.med.gunma-u.ac.jp/swtips/R.html#PYRAMID.
+  at http://minato.sip21c.org/swtips/R.html#PYRAMID.
 }
 \usage{
 pyramids(Left, Right, Center=NULL, ...)
@@ -16,7 +16,7 @@ pyramids(Left, Right, Center=NULL, ...)
  If not given, names(Left) is used instead.}
  \item{...}{This is the lapper function for pyramid().  All options for pyramid() can be passed.}
 }
-\author{Minato Nakazawa \email{minato-nakazawa@umin.net} \url{http://phi.med.gunma-u.ac.jp/}}
+\author{Minato Nakazawa \email{minato-nakazawa@umin.net} \url{http://minato.sip21c.org/}}
 \examples{
  py.Males <- c(80,40,30,20,10)
  names(py.Males) <- c('0-9','10-19','20-29','30-39','40-')
