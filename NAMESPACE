@@ -1,7 +1,9 @@
 # NAMESPACE file of pyramid by Minato Nakazawa
-# last modified 15 March 2012
+# last modified 4 September 2014
 
 export(pyramid,
+       pyramidf,
        pyramids,
-       GunmaPop2005)
+       GunmaPop2005,
+       GunmaPop2010)
 

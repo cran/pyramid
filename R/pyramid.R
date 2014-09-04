@@ -61,8 +61,72 @@ pyramid <- function(data, Laxis=NULL, Raxis=NULL,
  rect(rep(Cgap/2,Ci),VB,RightP,VT,col=Rcol,density=Rdens)
 }
 
+pyramidf <- function(data, Laxis=NULL, Raxis=NULL,
+                    frame=c(-1.15, 1.15, -0.05, 1.1),
+                    AxisFM="g", AxisBM="", AxisBI=3, Cgap=0.3, Cstep=1, Csize=1, 
+                    Llab="Males", Rlab="Females", Clab="Ages", GL=TRUE, Cadj=-0.03, 
+                    Lcol="Cyan", Rcol="Pink", Ldens=-1, Rdens=-1, main="", ...) {
+# frame version, added since rev. 1.4, 4th September 2014.
+# (C) Minato Nakazawa <minato-nakazawa@umin.net>
+  Left <- data[,1]
+  Right <- data[,2]
+  if (length(data)==2) { Center <- row.names(data) } else { Center <- data[,3] }
+  if (is.null(Laxis)) { Laxis <- seq(0,max(c(Left,Right)),len=5) }
+  if (is.null(Raxis)) { Raxis <- Laxis }
+  # setting x-y axes
+  BX <- c(-1-Cgap/2,1+Cgap/2)
+  BY <- c(-0.05,1.1)
+  XC <- function(XB) { (XB-BX[1])*(frame[2]-frame[1])/(2+Cgap)+frame[1] }
+  YC <- function(YB) { (YB-BY[1])*(frame[4]-frame[3])/1.15+frame[3] }
+  # scaling factors
+  LL <- max(Laxis)
+  LR <- min(Laxis)
+  LS <- LL-LR
+  LI <- length(Laxis)
+  RL <- min(Raxis)
+  RR <- max(Raxis)
+  RS <- RR-RL
+  RI <- length(Raxis)
+  # ticks of axis
+  segments(XC(-(Laxis-LR)/LS-Cgap/2),YC(-0.01),XC(-(Laxis-LR)/LS-Cgap/2),YC(0.01))
+  segments(XC((Raxis-RL)/RS+Cgap/2),YC(-0.01),XC((Raxis-RL)/RS+Cgap/2),YC(0.01))
+  # vertical grid lines
+  if (GL) {
+    segments(XC(-(Laxis-LR)/LS-Cgap/2),YC(0),XC(-(Laxis-LR)/LS-Cgap/2),YC(1),
+             lty=3,col="blue")
+    segments(XC((Raxis-RL)/RS+Cgap/2),YC(0),XC((Raxis-RL)/RS+Cgap/2),YC(1),
+             lty=3,col="blue")
+  }
+  # axes
+  lines(c(XC(-1-Cgap/2),XC(-Cgap/2)),c(YC(0),YC(0)),lty=1)
+  lines(c(XC(-Cgap/2),XC(-Cgap/2)),c(YC(0),YC(1)),lty=1)
+  lines(c(XC(1+Cgap/2),XC(Cgap/2)),c(YC(0),YC(0)),lty=1)
+  lines(c(XC(Cgap/2),XC(Cgap/2)),c(YC(0),YC(1)),lty=1)
+  # labels
+  text(XC(-0.5-Cgap/2),YC(1),Llab,pos=3)
+  text(XC(0.5+Cgap/2),YC(1),Rlab,pos=3)
+  text(XC(0),YC(1),Clab,pos=3)
+  Ci <- length(Center)
+  for (i in 0:(Ci-1)) { 
+    if ((i%%Cstep)==0) { text(XC(0),YC(i/Ci+Cadj),paste(Center[i+1]),pos=3,cex=Csize) }
+  }
+  text(XC(-(Laxis-LR)/LS-Cgap/2),YC(rep(0,LI)),
+       paste(formatC(Laxis,format=AxisFM,big.mark=AxisBM,big.interval=AxisBI)),pos=1)
+  text(XC((Raxis-RL)/RS+Cgap/2),YC(rep(0,RI)),
+       paste(formatC(Raxis,format=AxisFM,big.mark=AxisBM,big.interval=AxisBI)),pos=1)
+  # main text (above the frame)
+  if (length(main)>0) { text(XC(0), YC(1.1), main, pos=3) }
+  # draw rectangles
+  VB <- 0:(Ci-1)/Ci
+  VT <- 1:Ci/Ci
+  LeftP <- -(Left-LR)/LS-Cgap/2
+  rect(XC(LeftP),YC(VB),XC(rep(-Cgap/2,Ci)),YC(VT),col=Lcol,density=Ldens)
+  RightP <- (Right-RL)/RS+Cgap/2
+  rect(XC(rep(Cgap/2,Ci)),YC(VB),XC(RightP),YC(VT),col=Rcol,density=Rdens)
+}
+
 pyramids <- function(Left, Right, Center=NULL, ...) {
-# Lapper funuction for pyramid to use separate two vectors
+# Wrapper funuction for pyramid to use separate two vectors
  if (is.null(Center)) {
   dx <- data.frame(Left, Right, row.names=names(Left))
  } else { dx <- data.frame(Left, Right, Center) }
@@ -93,4 +157,31 @@ Females=c(8323, 8750, 8964, 9359, 9559, 9605, 9511, 9800, 9790, 9848,
  11442, 11087, 11035, 11209, 10646, 10482, 9784, 9777, 9491, 8891, 8188, 
  7636, 7034, 6123, 6103, 4577, 4415, 3861, 3426, 3035, 2571, 2064, 1683, 
  1209, 878, 739, 536, 333, 193, 134, 86, 56, 28, 13, 8, 5, 3, 1),
+Ages=0:108)
+
+# The census  2010 for Gunma prefecture data obtained from
+# http://www.e-stat.go.jp/SG1/estat/GL02020101.do?
+# method=csvDownload&fileId=000004983709&releaseCount=1
+# (connect above 2 lines as URL) as 00310.csv
+GunmaPop2010 <- data.frame(
+ Males = c(8135, 8555, 8869, 8607, 8688, 9001, 9354, 9583, 9841, 9749, 
+ 10073, 10118, 10057, 10211, 10142, 10433, 10520, 10206, 9729, 8505, 
+ 8675, 8908, 9160, 9569, 9704, 10321, 10638, 10815, 10991, 11463, 11991, 
+ 12360, 13000, 13299, 14177, 14597, 15768, 16004, 15769, 15140, 14694, 
+ 14481, 14420, 14444, 10596, 13612, 12718, 12129, 12018, 11875, 11937, 
+ 12370, 12056, 12072, 12788, 13834, 13087, 13946, 14890, 15589, 16841, 
+ 17968, 17716, 17610, 11614, 11408, 13654, 12899, 13350, 12546, 11414, 
+ 9526, 9927, 9888, 9761, 8912, 8657, 8137, 7848, 7528, 6966, 6423, 
+ 5832, 5414, 4841, 4139, 3285, 2431, 1850, 1443, 1445, 991, 810, 653, 
+ 511, 367, 294, 175, 101, 57, 49, 35, 14, 7, 3, 1, 1, 0, 0),
+ Females = c(7612, 7952, 8176, 8397, 8438, 8458, 8851, 8996, 9377, 9518, 
+ 9686, 9458, 9748, 9804, 9771, 9961, 9769, 9685, 9182, 8354, 8271, 8673, 
+ 8853, 8938, 9039, 9560, 9937, 10360, 10250, 10525, 11068, 11745, 12109, 
+ 12477, 13471, 13945, 15021, 14996, 15080, 14352, 13943, 13878, 13507, 
+ 13877, 10290, 13046, 12352, 11815, 11599, 11532, 11402, 11969, 11779, 
+ 11758, 12624, 13173, 13065, 13871, 15122, 16013, 16974, 18054, 17850, 
+ 17627, 11820, 11598, 14099, 13765, 14021, 13154, 12569, 10288, 11267, 
+ 11209, 11325, 10843, 10727, 10284, 10252, 10177, 9673, 9339, 8711, 8424, 
+ 8122, 7342, 6478, 5841, 5183, 4330, 4017, 2847, 2599, 2163, 1715, 1304, 
+ 1048, 743, 539, 333, 232, 151, 101, 57, 29, 14, 8, 3, 3),
 Ages=0:108)
