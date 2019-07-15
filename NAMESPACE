@@ -1,5 +1,12 @@
 # NAMESPACE file of pyramid by Minato Nakazawa
-# last modified 4 September 2014
+# last modified 2019-07-14
+
+importFrom("graphics", 
+           "lines", 
+           "plot", 
+           "rect", 
+           "segments", 
+           "text")
 
 export(pyramid,
        pyramidf,

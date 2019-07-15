@@ -1,3 +1,7 @@
+Changes to Version 1.5
+
+	Default axis is changed to be given by pretty().
+
 Changes to Version 1.4
 
 	Frame version (overlay is possible) pyramidf() has been added.

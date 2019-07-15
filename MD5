@@ -1,9 +1,9 @@
-1c7ba658727ad22fdfa221a0b865ef11 *DESCRIPTION
-cf62ddbe5f3fd6095ec3d5b8d61f3943 *NAMESPACE
-24c5b9e8c63dcc0fa2d94db6cdc155ba *NEWS
-e216a1155e66737d1a8d636871b3a60c *R/pyramid.R
+bd684645dfaba9eb9bb78a3bf6e1383e *DESCRIPTION
+68673c11ac91e9b3d6d36d02faf0c246 *NAMESPACE
+06f15758a5aafb7e359eb8e046300e7d *NEWS
+a966d3e4de2dd225e61685cee006d3e1 *R/pyramid.R
 b7a8b559741236093240962fd85d7968 *man/GunmaPop2005.Rd
 abc349094a4c90f600b2e984332ef835 *man/GunmaPop2010.Rd
-967b0f087e96ea6515c87a1d5c24dc3b *man/pyramid.Rd
-e5958dae8f445867bef476f70c17b2e7 *man/pyramidf.Rd
-caf5134654f67b6b4d28657a55b8653f *man/pyramids.Rd
+50a03d4af26a3b802fdfb1ed822c91dd *man/pyramid.Rd
+e196aaee7bf2fef4ac8f184bcfc617de *man/pyramidf.Rd
+6a401f67710070b87b698f575ff60b18 *man/pyramids.Rd

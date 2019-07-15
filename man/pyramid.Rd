@@ -17,7 +17,7 @@
  each age-class are usually given to left numbers and those of females are to
  right numbers.  If the data.frame includes 3rd column, it is used as age-class
  labels, otherwise the row.names(data) is used as age-class labels.}
- \item{Laxis}{A vector of axis for left pyramid.  If missing, automatically given.}
+ \item{Laxis}{A vector of axis for left pyramid.  If missing, automatically given using pretty().}
  \item{Raxis}{A vector of axis for right pyramid.  If missing, Laxis is used.}
  \item{AxisFM}{A format code of formatC for plotting axis.  If missing, "g" is used.}
  \item{AxisBM}{A big.mark of formatC for plotting axis.  If missing, none.}

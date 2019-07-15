@@ -1,18 +1,21 @@
+# A function to draw population pyramid
+# rev 1.0: 5th January 2010
+# rev 1.1: 6th January 2010: Added "Cadj" option with faint modification.
+# rev 1.2: 11th March 2010: Added "Csize", "AxisFM", "AxisBM", and "AxisBI"
+#          options, as suggested by Dr. Philippe Guillet.
+# rev 1.3: 15th March 2012: URL changed and GunmaPop2005 dataframe was included.
+# rev 1.4: 4th September 2014: Frame version pyramidf() is added.
+# rev 1.5: 14th July 2019: Auto-calculation of axis is changed to use pretty().
+# (C) Minato Nakazawa <minato-nakazawa@umin.net>
+
 pyramid <- function(data, Laxis=NULL, Raxis=NULL, 
  AxisFM="g", AxisBM="", AxisBI=3, Cgap=0.3, Cstep=1, Csize=1, 
  Llab="Males", Rlab="Females", Clab="Ages", GL=TRUE, Cadj=-0.03, 
  Lcol="Cyan", Rcol="Pink", Ldens=-1, Rdens=-1, main="", ...) {
- # A function to draw population pyramid
- # rev 1.0: 5th January 2010
- # rev 1.1: 6th January 2010: Added "Cadj" option with faint modification.
- # rev 1.2: 11th March 2010: Added "Csize", "AxisFM", "AxisBM", and "AxisBI"
- #          options, as suggested by Dr. Philippe Guillet.
- # rev 1.3: 15th March 2012: URL changed and GunmaPop2005 dataframe was included.
- # (C) Minato Nakazawa <minato-nakazawa@umin.net>
  Left <- data[,1]
  Right <- data[,2]
  if (length(data)==2) { Center <- row.names(data) } else { Center <- data[,3] }
- if (is.null(Laxis)) { Laxis <- seq(0,max(c(Left,Right)),len=5) }
+ if (is.null(Laxis)) { Laxis <- pretty(c(0,max(c(Left,Right)))) }
  if (is.null(Raxis)) { Raxis <- Laxis }
  # setting x-y axes
  BX <- c(-1-Cgap/2,1+Cgap/2)
@@ -67,11 +70,10 @@ pyramidf <- function(data, Laxis=NULL, Raxis=NULL,
                     Llab="Males", Rlab="Females", Clab="Ages", GL=TRUE, Cadj=-0.03, 
                     Lcol="Cyan", Rcol="Pink", Ldens=-1, Rdens=-1, main="", ...) {
 # frame version, added since rev. 1.4, 4th September 2014.
-# (C) Minato Nakazawa <minato-nakazawa@umin.net>
   Left <- data[,1]
   Right <- data[,2]
   if (length(data)==2) { Center <- row.names(data) } else { Center <- data[,3] }
-  if (is.null(Laxis)) { Laxis <- seq(0,max(c(Left,Right)),len=5) }
+  if (is.null(Laxis)) { Laxis <- pretty(c(0,max(c(Left,Right)))) }
   if (is.null(Raxis)) { Raxis <- Laxis }
   # setting x-y axes
   BX <- c(-1-Cgap/2,1+Cgap/2)
@@ -103,17 +105,17 @@ pyramidf <- function(data, Laxis=NULL, Raxis=NULL,
   lines(c(XC(1+Cgap/2),XC(Cgap/2)),c(YC(0),YC(0)),lty=1)
   lines(c(XC(Cgap/2),XC(Cgap/2)),c(YC(0),YC(1)),lty=1)
   # labels
-  text(XC(-0.5-Cgap/2),YC(1),Llab,pos=3)
-  text(XC(0.5+Cgap/2),YC(1),Rlab,pos=3)
-  text(XC(0),YC(1),Clab,pos=3)
+  text(XC(-0.5-Cgap/2), YC(1), Llab, pos=3)
+  text(XC(0.5+Cgap/2), YC(1), Rlab, pos=3)
+  text(XC(0), YC(1), Clab, pos=3)
   Ci <- length(Center)
   for (i in 0:(Ci-1)) { 
-    if ((i%%Cstep)==0) { text(XC(0),YC(i/Ci+Cadj),paste(Center[i+1]),pos=3,cex=Csize) }
+    if ((i%%Cstep)==0) { text(XC(0), YC(i/Ci+Cadj), paste(Center[i+1]), cex=Csize ,pos=3) }
   }
   text(XC(-(Laxis-LR)/LS-Cgap/2),YC(rep(0,LI)),
-       paste(formatC(Laxis,format=AxisFM,big.mark=AxisBM,big.interval=AxisBI)),pos=1)
+       paste(formatC(Laxis,format=AxisFM,big.mark=AxisBM,big.interval=AxisBI)), pos=1)
   text(XC((Raxis-RL)/RS+Cgap/2),YC(rep(0,RI)),
-       paste(formatC(Raxis,format=AxisFM,big.mark=AxisBM,big.interval=AxisBI)),pos=1)
+       paste(formatC(Raxis,format=AxisFM,big.mark=AxisBM,big.interval=AxisBI)), pos=1)
   # main text (above the frame)
   if (length(main)>0) { text(XC(0), YC(1.1), main, pos=3) }
   # draw rectangles
